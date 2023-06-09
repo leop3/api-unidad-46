@@ -1,5 +1,9 @@
 package com.dolga.unidad46.converters;
 
+import java.util.Objects;
+
+import org.apache.logging.log4j.util.Strings;
+
 import com.dolga.unidad46.dtos.entities.CelularDto;
 import com.dolga.unidad46.dtos.entities.InternoDto;
 import com.dolga.unidad46.entities.Celular;
@@ -47,8 +51,11 @@ public class Converter {
 				.marca(cel.getMarca())
 				.modelo(cel.getModelo())
 				.activo(cel.getActivo())
+				.fechaIngreso(Utils.parseLocalDate(cel.getFechaIngreso()))
+				.fechaEgreso(Strings.isBlank(cel.getFechaEgreso()) ? null : Utils.parseLocalDate(cel.getFechaEgreso()))
 				.fichaCriminologia(cel.getFichaCriminologia())
 				.build();
+
 	}
 
 	public static CelularDto ConvertToCelularDto(Celular celDto) {
@@ -63,6 +70,8 @@ public class Converter {
 				.imei(celDto.getImei())
 				.marca(celDto.getMarca())
 				.modelo(celDto.getModelo())
+				.fechaIngreso(Utils.formatDate(celDto.getFechaIngreso()))
+				.fechaEgreso(Objects.isNull(celDto.getFechaEgreso()) ? null : Utils.formatDate(celDto.getFechaEgreso()))
 				.activo(celDto.getActivo())
 				.fichaCriminologia(celDto.getFichaCriminologia())
 				.build();

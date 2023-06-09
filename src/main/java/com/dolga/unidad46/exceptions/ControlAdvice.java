@@ -8,15 +8,16 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.dolga.unidad46.dtos.InternoErrorResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
 @ControllerAdvice
+@Slf4j
 public class ControlAdvice {
 
 	@ExceptionHandler(NuevoInternoException.class)
 	public ResponseEntity<InternoErrorResponse> handleCustomException(NuevoInternoException ex, WebRequest request) {
-		var response = InternoErrorResponse.builder()
-				.state("ERROR")
-				.mensaje(ex.getMensaje())
-				.build();
+		log.info("ERROR: " + ex.getMensaje());
+		var response = InternoErrorResponse.builder().state("ERROR").mensaje(ex.getMensaje()).build();
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 }

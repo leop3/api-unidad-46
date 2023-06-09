@@ -1,5 +1,7 @@
 package com.dolga.unidad46.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,6 +50,12 @@ public class Celular {
 
 	@Column(name = "modelo")
 	private String modelo;
+
+	@Column(name = "fecha_ingreso")
+	private LocalDate fechaIngreso;
+
+	@Column(name = "fecha_egreso")
+	private LocalDate fechaEgreso;
 
 	@Column(name = "ficha_criminologia")
 	private Long fichaCriminologia;

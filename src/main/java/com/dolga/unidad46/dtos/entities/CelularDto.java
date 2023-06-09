@@ -28,6 +28,10 @@ public class CelularDto {
 	private String marca;
 
 	private String modelo;
+	
+	private String fechaIngreso;
+	
+	private String fechaEgreso;
 
 	private Boolean activo;
 

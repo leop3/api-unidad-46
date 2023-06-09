@@ -19,9 +19,12 @@ import com.dolga.unidad46.dtos.InternoResponse;
 import com.dolga.unidad46.dtos.entities.InternoDto;
 import com.dolga.unidad46.services.IInternoService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/unidad/46/internos")
+@Slf4j
 public class InternoController {
 
 	@Autowired
@@ -30,7 +33,7 @@ public class InternoController {
 	@PostMapping("/{page}-{quantity}")
 	public ResponseEntity<InternoResponse> getInternos(@PathVariable int page, @PathVariable int quantity,
 			@RequestBody InternoDto interno) {
-
+		log.info("Se busca la pagina de internos numero " + page);
 		var internos = service.getInternos(page - 1, quantity, interno);
 		var response = InternoResponse.builder().internos(internos).build();
 		return ResponseEntity.of(Optional.of(response));
@@ -39,6 +42,7 @@ public class InternoController {
 	@PutMapping
 	public ResponseEntity<String> nuevoInterno(@RequestBody InternoDto nuevoInterno) {
 
+		log.info("Iniciando proceso de creacion de nuevo interno.");
 		service.nuevoInterno(nuevoInterno);
 
 		return ResponseEntity.ok("OK");
@@ -47,6 +51,7 @@ public class InternoController {
 	@GetMapping("/imei/{imei}")
 	public ResponseEntity<List<InternoImeiResponse>> getInternosByImei(@PathVariable String imei) {
 
+		log.info("Iniciando proceso de busqueda de interno por Imei de celular.");
 		return ResponseEntity.ok(service.getInternosByImei(imei));
 	}
 }

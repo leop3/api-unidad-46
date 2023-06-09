@@ -18,7 +18,10 @@ import com.dolga.unidad46.exceptions.NuevoInternoException;
 import com.dolga.unidad46.repositories.InternoRepositorio;
 import com.dolga.unidad46.utils.Utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class InternoService implements IInternoService {
 
 	@Autowired
@@ -27,8 +30,10 @@ public class InternoService implements IInternoService {
 	@Override
 	public List<InternoDto> getInternos(int numeroPagina, int tamanioPagina, InternoDto interno) {
 
+		log.info("Validando parametros de busqueda del interno.");
 		validateInternoSearch(interno);
 
+		log.info("Buscando la pagina de los internos.");
 		Pageable pageRequest = PageRequest.of(numeroPagina, tamanioPagina);
 		var internosB = internoRepo
 				.findTodosLosInternos(interno.getFichaCriminologia(), interno.getSector(), interno.getPabellon(),
@@ -37,13 +42,6 @@ public class InternoService implements IInternoService {
 				.stream()
 				.map(inter -> Converter.convertToInternoDto(inter))
 				.collect(Collectors.toList());
-
-//		var internos = internoRepo
-//				.findAll(pageRequest)
-//				.getContent()
-//				.stream()
-//				.map(inter -> Converter.convertToInternoDto(inter))
-//				.collect(Collectors.toList());
 
 		return internosB;
 
@@ -77,12 +75,16 @@ public class InternoService implements IInternoService {
 	@Override
 	public void nuevoInterno(InternoDto nuevoInterno) {
 		try {
+			log.info("Convirtiendo DTO a Entity.");
 			var interno = Converter.convertToInternoEntity(nuevoInterno);
 			interno.setActivo(Boolean.TRUE);
+			log.info("Validando si existe el interno por ficha criminologia.");
 			if (internoRepo.existsById(nuevoInterno.getFichaCriminologia())) {
 				throw new NuevoInternoException("Ya existe el interno.");
 			}
+			log.info("Iniciando la creacion del nuevo interno...");
 			internoRepo.save(interno);
+			log.info("Interno creado satisfactoriamente.");
 		} catch (NuevoInternoException e) {
 			throw new NuevoInternoException(e.getMensaje());
 		} catch (Exception e) {
@@ -93,6 +95,7 @@ public class InternoService implements IInternoService {
 
 	@Override
 	public List<InternoImeiResponse> getInternosByImei(String imei) {
+		log.info("Comenzando busqueda de internos por IMEI.");
 		return internoRepo
 				.findInternosByImei(imei)
 				.stream()
