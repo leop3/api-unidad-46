@@ -1,5 +1,6 @@
 package com.dolga.unidad46.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import com.dolga.unidad46.exceptions.NuevoInternoException;
 import com.dolga.unidad46.repositories.InternoRepositorio;
 import com.dolga.unidad46.utils.Utils;
 
+import lombok.var;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -109,5 +111,25 @@ public class InternoService implements IInternoService {
 						.estadoCelular(r.getEstadoCelular())
 						.build())
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public void discontinuarInterno(String ficha) {
+		log.info("Buscando al interno " + ficha + "...");
+		var interno = internoRepo
+				.findById(Long.valueOf(ficha))
+				.orElseThrow(() -> new NuevoInternoException("Interno no encontrado."));
+		interno.setActivo(false);
+		interno.setFechaEgreso(LocalDateTime.now());
+		log.info("Interno dado de baja");
+
+	}
+
+	@Override
+	public void eliminarInterno(String ficha) {
+		log.info("Eliminando interno...");
+		internoRepo.deleteById(Long.valueOf(ficha));
+		log.info("Interno " + ficha + " eliminado definitivamente");
+
 	}
 }

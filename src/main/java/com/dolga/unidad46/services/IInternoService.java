@@ -10,10 +10,14 @@ import com.dolga.unidad46.entities.Interno;
 public interface IInternoService {
 
 	public List<InternoDto> getInternos(int numeroPagina, int tamanioPagina, InternoDto interno);
-	
+
 	public Optional<Interno> getInterno(Long id);
-	
+
 	public void nuevoInterno(InternoDto nuevoInterno);
 
 	public List<InternoImeiResponse> getInternosByImei(String imei);
+
+	public void discontinuarInterno(String ficha);
+
+	public void eliminarInterno(String ficha);
 }

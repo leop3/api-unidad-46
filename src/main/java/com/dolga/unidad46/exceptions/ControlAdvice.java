@@ -17,7 +17,7 @@ public class ControlAdvice {
 	@ExceptionHandler(NuevoInternoException.class)
 	public ResponseEntity<InternoErrorResponse> handleCustomException(NuevoInternoException ex, WebRequest request) {
 		log.info("ERROR: " + ex.getMensaje());
-		var response = InternoErrorResponse.builder().state("ERROR").mensaje(ex.getMensaje()).build();
+		InternoErrorResponse response = InternoErrorResponse.builder().state("ERROR").mensaje(ex.getMensaje()).build();
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 }

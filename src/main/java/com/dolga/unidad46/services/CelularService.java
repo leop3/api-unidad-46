@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.dolga.unidad46.converters.Converter;
 import com.dolga.unidad46.dtos.FiltrosCelularDto;
 import com.dolga.unidad46.dtos.entities.CelularDto;
+import com.dolga.unidad46.entities.Celular;
 import com.dolga.unidad46.repositories.CelularRepositorio;
 
+import lombok.var;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -27,9 +29,9 @@ public class CelularService implements ICelularService {
 	public CelularDto nuevoCelularParaInterno(CelularDto nuevoCelular) {
 		log.info("Iniciando proceso para nuevo celular...");
 		log.info("Convirtiendo Dto a Entidad...");
-		var cel = Converter.converToCelularEntity(nuevoCelular);
+		Celular cel = Converter.converToCelularEntity(nuevoCelular);
 		cel.setActivo(Boolean.TRUE);
-		var response = Converter.ConvertToCelularDto(repo.saveAndFlush(cel));
+		CelularDto response = Converter.ConvertToCelularDto(repo.saveAndFlush(cel));
 		log.info("Celular creando satisfactoriamente.");
 		return response;
 	}
@@ -37,7 +39,7 @@ public class CelularService implements ICelularService {
 	@Override
 	public Optional<List<CelularDto>> getCelularPorInterno(Long idInterno, FiltrosCelularDto filtros) {
 		log.info("Iniciando busqueda de celulares del interno: " + idInterno);
-		var celulares = repo
+		List<CelularDto> celulares = repo
 				.findByFichaCriminologia(idInterno, filtros.getNumero(), filtros.getCompania(),
 						filtros.getDepositante(), filtros.getDniDepositante(), filtros.getAccesorios(),
 						filtros.getImei(), filtros.getMarca(), filtros.getModelo())

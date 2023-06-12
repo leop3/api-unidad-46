@@ -2,6 +2,8 @@ package com.dolga.unidad46.dtos.entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,7 @@ public class InternoDto {
 
 	private String nombres;
 
-//	private String fechaIngreso;
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDateTime fechaIngreso;
 	
 	private String fechaIngresoString;

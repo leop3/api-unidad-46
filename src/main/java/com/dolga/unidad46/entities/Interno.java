@@ -38,6 +38,9 @@ public class Interno {
 
 	@Column(name = "fecha_ingreso")
 	private LocalDateTime fechaIngreso;
+	
+	@Column(name = "fecha_egreso")
+	private LocalDateTime fechaEgreso;
 
 	@Column(name = "activo")
 	private Boolean activo;

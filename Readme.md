@@ -25,3 +25,12 @@
 
 * La aplicación permite exportar los datos de los internos y sus celulares activos.
  
+### _________________________________________________________________
+
+## Release 1.1.0
+
+#Features
+
+# INTERNOS
+* Se puede dar de baja.
+* Se puede eliminar definitivamente.
